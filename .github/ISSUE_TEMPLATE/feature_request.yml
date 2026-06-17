@@ -1,0 +1,33 @@
+name: Feature request
+description: Propose a new adapter, contract change, or repo improvement.
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What recurring workflow or drift risk should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe the smallest useful change.
+    validations:
+      required: true
+  - type: textarea
+    id: contract
+    attributes:
+      label: Contract impact
+      description: Does this change `core/`, an adapter, generated output, CI, or documentation?
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification
+      description: What tests or gates should prove the change works?
+    validations:
+      required: true

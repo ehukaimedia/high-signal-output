@@ -1,0 +1,6 @@
+# OpenAI Codex reads AGENTS.md as project house rules.
+# Emits a directive note plus the document body — drop into a project's
+# AGENTS.md (or ~/.codex/AGENTS.md) to make this the default prose style.
+output = "codex/AGENTS.md"
+header = "prose"
+note = "Project house style — apply this to every prose artifact you produce in this repo: PR and commit bodies, status updates, handoffs, summaries."

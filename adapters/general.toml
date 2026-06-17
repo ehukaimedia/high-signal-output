@@ -1,0 +1,6 @@
+# Portable, model-neutral artifact.
+# Emits a one-line framing plus the document body — usable as a system prompt,
+# a style guide, or an instruction file for any AI agent or human author.
+output = "general/high-signal-output.md"
+header = "prose"
+note = "A portable, model-neutral guide to high-signal writing — drop it into any AI agent as a system prompt, style guide, or instruction file."

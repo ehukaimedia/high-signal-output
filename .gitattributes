@@ -1,0 +1,3 @@
+# Normalize all text to LF in the repository so the generated dist/ stays
+# byte-identical across operating systems and the CI drift gate is stable.
+* text=auto eol=lf

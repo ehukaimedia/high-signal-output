@@ -1,0 +1,19 @@
+# Single source of truth for the skill's identity and trigger metadata.
+# The principles live in core/body.md. Generated artifacts live in dist/ —
+# never hand-edit them; edit here and run `python scripts/build.py`.
+
+name = "high-signal-output"
+title = "High-Signal Output"
+tagline = "Write so every token earns its place."
+
+# One logical line, folded via TOML's line-continuation backslash for readability.
+# Consumed verbatim as the Claude skill `description` (the trigger surface).
+description = """
+Use when composing a user-facing long-form prose artifact (PR or commit body, status update, \
+handoff, release note, multi-paragraph summary), or when the user explicitly asks for denser, \
+tighter, sharper, terser, or less-verbose output, or to "tighten this". Also an opt-in pre-send \
+self-edit on a long draft. NOT for routine Q&A, short factual answers, exploratory brainstorming, \
+emotionally sensitive replies, or where a required format or safety constraint already governs \
+length. Triggers on output that is too verbose, wordy, bloated, or padded; "trim", "condense", \
+"concise", "token-frugal", "high signal", "say more with less".\
+"""

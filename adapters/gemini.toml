@@ -1,0 +1,6 @@
+# Google Gemini CLI / Antigravity reads GEMINI.md as project context.
+# Emits a directive note plus the document body — drop into a project's
+# GEMINI.md (or ~/.gemini/GEMINI.md) to make this the default prose style.
+output = "gemini/GEMINI.md"
+header = "prose"
+note = "Project house style — apply this to every prose artifact you produce in this repo: PR and commit bodies, status updates, handoffs, summaries."
