@@ -39,7 +39,7 @@ The ready-to-use artifacts live in [`dist/`](dist/). Grab the one for your agent
 | **Claude Code** | [`dist/claude-code/SKILL.md`](dist/claude-code/SKILL.md) | copy to `~/.claude/skills/high-signal-output/SKILL.md` |
 | **Claude.ai** | [`dist/claude-ai/skill.md`](dist/claude-ai/skill.md) | use as the `skill.md` in an uploaded custom skill |
 | **OpenAI Codex** | [`dist/codex/AGENTS.md`](dist/codex/AGENTS.md) | merge into your project `AGENTS.md` (or `~/.codex/AGENTS.md`) |
-| **Gemini CLI / Antigravity** | [`dist/gemini/GEMINI.md`](dist/gemini/GEMINI.md) | copy into your project `GEMINI.md` (or `~/.gemini/GEMINI.md`) |
+| **Gemini CLI** | [`dist/gemini/GEMINI.md`](dist/gemini/GEMINI.md) | copy into your project `GEMINI.md` (or `~/.gemini/GEMINI.md`) |
 | **Any agent / human** | [`dist/general/high-signal-output.md`](dist/general/high-signal-output.md) | use as a system prompt or style guide |
 
 For example, to install the Claude Code skill:

@@ -13,7 +13,7 @@ Usage:
 
 Exit codes (stable contract):
     0  success — written, or (with --check) everything in sync
-    1  drift   — (with --check) one or more dist files are stale
+    1  drift   — (with --check) dist files are missing, stale, or orphaned
     2  bad input — missing/invalid core or adapter sources
 """
 from __future__ import annotations

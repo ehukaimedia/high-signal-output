@@ -1,4 +1,4 @@
-# Google Gemini CLI / Antigravity reads GEMINI.md as project context.
+# Google Gemini CLI reads GEMINI.md as project context.
 # Emits a directive note plus the document body — drop into a project's
 # GEMINI.md (or ~/.gemini/GEMINI.md) to make this the default prose style.
 output = "gemini/GEMINI.md"

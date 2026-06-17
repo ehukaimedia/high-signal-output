@@ -8,8 +8,6 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 - Separate Claude Code and Claude.ai generated artifacts with target-specific metadata limits.
-- Compatibility matrix for Claude Code, Claude.ai, Codex, Gemini CLI, Antigravity, and generic
-  Markdown.
 - Signal-density example eval gate and installer helper for generated artifacts.
 - Status-shape guidance distilled from aggregate local JSONL analysis, with agnostic synthetic
   examples.
@@ -17,6 +15,7 @@ All notable changes to this project are documented here. The format follows
 ### Changed
 - The drift gate now fails on orphaned generated files under `dist/`, not only missing or stale
   expected files.
+- README and adapter references now describe only the shipped Gemini CLI artifact.
 - README now leads with before/after examples and links to measured local evidence instead of
   making unsupported corpus-level provenance claims.
 - Eval examples now avoid platform-specific source details and preserve only generalized writing
