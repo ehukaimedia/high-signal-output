@@ -1,0 +1,34 @@
+{
+  "examples": [
+    {
+      "name": "status update",
+      "before": "I took a look at the current state and it seems like the implementation is mostly in place. I ran the test suite and the build check, and those are both passing. There is one thing to be aware of, which is that I have not pushed the branch yet because I wanted confirmation before making the remote change.",
+      "after": "Build check and tests pass; not pushed yet because the remote change still needs confirmation.",
+      "required_caveats": ["not pushed"]
+    },
+    {
+      "name": "PR summary",
+      "before": "This pull request updates the generator so that generated files are kept in sync with the source inputs. It also adds a few tests for the situations where generated outputs are missing or stale. One limitation is that it does not change the content of the actual writing guidance, because this change is only about the build contract.",
+      "after": "Tightens the generator drift contract and adds missing/stale output tests; the writing guidance itself is unchanged.",
+      "required_caveats": ["unchanged"]
+    },
+    {
+      "name": "handoff",
+      "before": "The repository is ready for the next person to continue from here. I added the compatibility matrix and the docs for how the adapters work. The main remaining caveat is that Claude.ai skill uploads still need to be tested manually in the web product, because the local test only validates the documented metadata limits.",
+      "after": "Ready for the next pass: compatibility docs and adapter notes are in place; Claude.ai upload still needs manual web-product testing.",
+      "required_caveats": ["manual web-product testing"]
+    },
+    {
+      "name": "review finding",
+      "before": "I found a potential problem in the README where it says that the same Claude artifact works for Claude Code and Claude.ai. That looks risky because Claude.ai documents a shorter description limit, so users might copy a file that validates for one target but fails in the other.",
+      "after": "README overstates Claude compatibility: Claude.ai has a shorter description limit, so the shared Claude artifact can fail there.",
+      "required_caveats": ["Claude.ai", "shorter description limit"]
+    },
+    {
+      "name": "release note",
+      "before": "In this release we added a compatibility matrix, more validation around the generated artifacts, installer commands for the supported agent targets, and a small evidence report that compares verbose examples to high-signal rewrites. This is still an illustrative eval rather than a broad benchmark across many private transcripts.",
+      "after": "Adds compatibility docs, artifact validation, installer commands, and a small signal-density eval; the eval is illustrative, not a broad benchmark.",
+      "required_caveats": ["illustrative", "not a broad benchmark"]
+    }
+  ]
+}

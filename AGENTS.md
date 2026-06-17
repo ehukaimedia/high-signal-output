@@ -19,6 +19,7 @@ Run these before handing off a change:
 ```bash
 python scripts/build.py --check
 python -m unittest discover -s tests -v
+python scripts/eval_examples.py --check
 python -m ruff check .
 ```
 

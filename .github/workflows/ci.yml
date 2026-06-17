@@ -35,5 +35,8 @@ jobs:
       - name: Tests
         run: python -m unittest discover -s tests -v
 
+      - name: Signal-density examples
+        run: python scripts/eval_examples.py --check
+
       - name: Lint
         run: python -m ruff check .

@@ -32,14 +32,16 @@ python -m pip install -r requirements-dev.txt
 
 ```bash
 python -m unittest discover -s tests -v
+python scripts/eval_examples.py --check
 python -m ruff check .
 # or run every gate at once:
 make all
 ```
 
-The suite proves the sync gate actually works: the committed `dist/` matches the source, the body
-is identical across platforms, and the gate *fails* on stale output, missing output, and bad input.
-If you add a platform or change rendering, add the matching test.
+The suite proves the sync gate actually works: the committed `dist/` exactly matches the rendered
+artifact manifest, the body is identical across platforms, target metadata limits are enforced, and
+the gate *fails* on stale output, missing output, orphaned output, and bad input. If you add a
+platform or change rendering, add the matching test.
 
 ## Pull requests
 
@@ -48,4 +50,6 @@ If you add a platform or change rendering, add the matching test.
   `test:`, `chore:`).
 - Fill in the PR template: what changed, why, and how you verified it (commands + output).
 - Update [CHANGELOG.md](CHANGELOG.md) under `Unreleased` for any user-facing change.
+- Update [docs/compatibility.md](docs/compatibility.md) when a platform install path, metadata
+  limit, or instruction-file contract changes.
 - CI (build-check + tests + lint) must be green before merge.

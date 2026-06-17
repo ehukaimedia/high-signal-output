@@ -7,6 +7,7 @@ Two layers:
     fail: stale output, missing output, and each bad-input path (exit code 2).
 """
 import json
+import re
 import shutil
 import sys
 import tempfile
@@ -19,11 +20,23 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import build  # noqa: E402
 
 EXPECTED = {
-    "claude/SKILL.md",
+    "claude-ai/skill.md",
+    "claude-code/SKILL.md",
     "codex/AGENTS.md",
     "gemini/GEMINI.md",
     "general/high-signal-output.md",
 }
+
+
+def _frontmatter_value(content: str, key: str) -> str:
+    frontmatter = content.split("---", 2)[1]
+    match = re.search(rf"^{key}: >-\n((?:  .+\n?)+)", frontmatter, re.MULTILINE)
+    if match:
+        return " ".join(line.strip() for line in match.group(1).splitlines())
+    match = re.search(rf"^{key}: (.+)$", frontmatter, re.MULTILINE)
+    if match:
+        return match.group(1).strip()
+    raise AssertionError(f"missing frontmatter key: {key}")
 
 
 class RealRepoContract(unittest.TestCase):
@@ -36,7 +49,7 @@ class RealRepoContract(unittest.TestCase):
     def test_render_is_deterministic(self):
         self.assertEqual(build.render_all(), build.render_all())
 
-    def test_all_four_platforms_present(self):
+    def test_all_platform_targets_present(self):
         self.assertEqual(set(build.render_all()), EXPECTED)
 
     def test_body_identical_across_platforms(self):
@@ -45,6 +58,23 @@ class RealRepoContract(unittest.TestCase):
             for path, content in build.render_all().items()
         }
         self.assertEqual(len(set(bodies.values())), 1, "body must be single-sourced")
+
+    def test_claude_skill_metadata_matches_target_limits(self):
+        rendered = build.render_all()
+        for path in ("claude-ai/skill.md", "claude-code/SKILL.md"):
+            self.assertEqual(_frontmatter_value(rendered[path], "name"), "high-signal-output")
+        self.assertLessEqual(
+            len(_frontmatter_value(rendered["claude-ai/skill.md"], "description")),
+            200,
+        )
+        self.assertLessEqual(
+            len(_frontmatter_value(rendered["claude-code/SKILL.md"], "description")),
+            build.AGENT_SKILL_DESCRIPTION_MAX,
+        )
+
+    def test_codex_artifact_stays_under_default_project_doc_limit(self):
+        # Codex documents a 32 KiB default project_doc_max_bytes limit for AGENTS.md files.
+        self.assertLessEqual(len(build.render_all()["codex/AGENTS.md"].encode("utf-8")), 32 * 1024)
 
     def test_check_cli_returns_zero(self):
         out = StringIO()
@@ -104,6 +134,23 @@ class FixtureContract(unittest.TestCase):
         self.assertEqual(reasons, {"missing"})
         self.assertEqual(build.main(["--check"]), 1)
 
+    def test_orphan_output_is_detected(self):
+        build.write(build.render_all())
+        orphan = build.DIST / "old" / "SKILL.md"
+        orphan.parent.mkdir()
+        orphan.write_text("stale generated artifact\n", encoding="utf-8")
+        stale = build.drift(build.render_all())
+        self.assertEqual(stale, [{"file": "old/SKILL.md", "reason": "orphan"}])
+        self.assertEqual(build.main(["--check"]), 1)
+
+    def test_write_prunes_orphan_output(self):
+        build.write(build.render_all())
+        orphan = build.DIST / "old" / "SKILL.md"
+        orphan.parent.mkdir()
+        orphan.write_text("stale generated artifact\n", encoding="utf-8")
+        build.write(build.render_all())
+        self.assertFalse(orphan.exists())
+
     def test_missing_core_is_bad_input(self):
         (build.CORE / "meta.toml").unlink()
         self.assertEqual(build.main([]), 2)
@@ -114,6 +161,24 @@ class FixtureContract(unittest.TestCase):
 
     def test_unknown_header_is_bad_input(self):
         self._adapter("weird.toml", 'output = "weird/x.md"\nheader = "xml"\n')
+        self.assertEqual(build.main([]), 2)
+
+    def test_duplicate_output_is_bad_input(self):
+        self._adapter("copy.toml", 'output = "claude/SKILL.md"\nheader = "prose"\nnote = "n"\n')
+        self.assertEqual(build.main([]), 2)
+
+    def test_output_outside_dist_is_bad_input(self):
+        self._adapter("escape.toml", 'output = "../escape.md"\nheader = "prose"\nnote = "n"\n')
+        self.assertEqual(build.main([]), 2)
+
+    def test_description_limit_is_bad_input(self):
+        self._adapter(
+            "too-long.toml",
+            'output = "short/SKILL.md"\n'
+            'header = "yaml"\n'
+            "description_max = 4\n"
+            'description = "too long"\n',
+        )
         self.assertEqual(build.main([]), 2)
 
     def test_no_adapters_is_bad_input(self):
