@@ -39,7 +39,7 @@ The ready-to-use artifacts live in [`dist/`](dist/). Grab the one for your agent
 | **Claude Code** | [`dist/claude-code/SKILL.md`](dist/claude-code/SKILL.md) | copy to `~/.claude/skills/high-signal-output/SKILL.md` |
 | **Claude.ai** | [`dist/claude-ai/skill.md`](dist/claude-ai/skill.md) | use as the `skill.md` in an uploaded custom skill |
 | **OpenAI Codex** | [`dist/codex/AGENTS.md`](dist/codex/AGENTS.md) | merge into your project `AGENTS.md` (or `~/.codex/AGENTS.md`) |
-| **Gemini CLI** | [`dist/gemini/GEMINI.md`](dist/gemini/GEMINI.md) | copy into your project `GEMINI.md` (or `~/.gemini/GEMINI.md`) |
+| **Gemini CLI** | [`dist/gemini/GEMINI.md`](dist/gemini/GEMINI.md) | merge into your project `GEMINI.md` (or `~/.gemini/GEMINI.md`) |
 | **Any agent / human** | [`dist/general/high-signal-output.md`](dist/general/high-signal-output.md) | use as a system prompt or style guide |
 
 For example, to install the Claude Code skill:
@@ -49,14 +49,22 @@ mkdir -p ~/.claude/skills/high-signal-output
 cp dist/claude-code/SKILL.md ~/.claude/skills/high-signal-output/SKILL.md
 ```
 
-Installer shortcuts are available too. They refuse to overwrite a different existing file unless
-you pass `--force`.
+Installer shortcuts are available too:
 
 ```bash
+python scripts/install.py --all
 python scripts/install.py --target claude-code
+python scripts/install.py --targets codex,gemini
 python scripts/install.py --target codex --dest ./AGENTS.md
 python scripts/install.py --target gemini --dest ./GEMINI.md
 ```
+
+`--all` installs the local Claude Code, Codex, and Gemini CLI targets. Claude installs own their
+dedicated skill file, so reruns no-op when current and refresh the default skill path when stale.
+Custom Claude `--dest` paths still refuse unrelated files unless you pass `--force`. Codex and
+Gemini installs merge a managed Markdown block into existing `AGENTS.md` / `GEMINI.md` files, so
+rerunning the installer does not duplicate the guidance and stale managed blocks update in place.
+Merge installs refuse unmanaged High-Signal Output content instead of guessing and duplicating it.
 
 The Claude Code and Claude.ai artifacts are separate because those surfaces document different skill
 metadata and file-shape expectations.

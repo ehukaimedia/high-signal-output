@@ -1,5 +1,5 @@
 # Convenience targets. Windows users without `make` can run the python commands directly.
-.PHONY: build check test eval lint all install-claude-code install-claude-ai install-codex install-gemini
+.PHONY: build check test eval lint all install-all install-claude-code install-claude-ai install-codex install-gemini
 
 build:    ## Generate dist/ from the single source of truth
 	python scripts/build.py
@@ -27,5 +27,8 @@ install-codex: build         ## Install global Codex guidance in ~/.codex/AGENTS
 
 install-gemini: build        ## Install global Gemini CLI guidance in ~/.gemini/GEMINI.md
 	python scripts/install.py --target gemini
+
+install-all: build           ## Install local Claude Code, Codex, and Gemini targets
+	python scripts/install.py --all
 
 all: check test eval lint    ## Run every gate (what CI runs)
