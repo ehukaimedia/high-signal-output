@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-EXAMPLES = ROOT / "docs" / "evals" / "examples.json"
+EXAMPLES = ROOT / "tests" / "fixtures" / "signal_density_examples.json"
 TOKEN_RE = re.compile(r"\w+|[^\w\s]", re.UNICODE)
 
 

@@ -22,6 +22,9 @@ All notable changes to this project are documented here. The format follows
 - Eval examples now avoid platform-specific source details and preserve only generalized writing
   patterns from the private corpus.
 
+### Removed
+- Public `docs/` tree; private plans, specs, and architecture notes should stay local.
+
 ## [0.1.0] - 2026-06-16
 
 ### Added

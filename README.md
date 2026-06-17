@@ -22,8 +22,7 @@ format.
 
 The checked-in examples are synthetic, agnostic rewrites distilled from private-source patterns and
 measured by `scripts/eval_examples.py`: each rewrite must shrink the token proxy count while
-retaining required caveats. See
-[`docs/evals/signal-density-baseline.md`](docs/evals/signal-density-baseline.md).
+retaining required caveats.
 
 ## Quickstart
 
@@ -59,8 +58,8 @@ python scripts/install.py --target codex --dest ./AGENTS.md
 python scripts/install.py --target gemini --dest ./GEMINI.md
 ```
 
-Platform support is tracked in [`docs/compatibility.md`](docs/compatibility.md), including the
-Claude Code vs Claude.ai description-limit split and the Gemini CLI to Antigravity transition.
+The Claude Code and Claude.ai artifacts are separate because those surfaces document different skill
+metadata and file-shape expectations.
 
 ## What's in it
 
@@ -107,11 +106,6 @@ make all
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the one hard rule (edit `core/`, never `dist/`) and the
 PR flow.
-
-The source-of-truth contract is documented in
-[`docs/specs/high-signal-output-contract.md`](docs/specs/high-signal-output-contract.md), with a
-visual architecture map at
-[`docs/playgrounds/architecture/high-signal-output-flow.html`](docs/playgrounds/architecture/high-signal-output-flow.html).
 
 ## Evidence
 

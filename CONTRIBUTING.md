@@ -50,6 +50,4 @@ platform or change rendering, add the matching test.
   `test:`, `chore:`).
 - Fill in the PR template: what changed, why, and how you verified it (commands + output).
 - Update [CHANGELOG.md](CHANGELOG.md) under `Unreleased` for any user-facing change.
-- Update [docs/compatibility.md](docs/compatibility.md) when a platform install path, metadata
-  limit, or instruction-file contract changes.
 - CI (build-check + tests + lint) must be green before merge.
