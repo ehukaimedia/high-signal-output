@@ -16,12 +16,13 @@ format.
 
 | Context | Before | High-signal version |
 |---|---|---|
-| Status | I ran the tests and the build check, and those are both passing. I have not pushed the branch yet because I wanted confirmation before making the remote change. | Build check and tests pass; not pushed yet because the remote change still needs confirmation. |
-| PR summary | This pull request updates the generator so generated files are kept in sync with source inputs. It also adds tests for missing or stale outputs. | Tightens the generator drift contract and adds missing/stale output tests; the writing guidance itself is unchanged. |
-| Handoff | The main remaining caveat is that Claude.ai skill uploads still need to be tested manually in the web product. | Compatibility docs and adapter notes are in place; Claude.ai upload still needs manual web-product testing. |
+| Status | I ran the tests and the build check, and those are both passing. I have not deployed the change yet because I wanted confirmation before making the remote change. | Build check and tests pass; not deployed yet because the remote change still needs confirmation. |
+| PR summary | This pull request updates the validator so exported files stay in sync with source inputs. It also adds tests for missing or stale outputs. | Tightens the export validation contract and adds missing/stale output tests; the public API is unchanged. |
+| Handoff | The main remaining caveat is that the production import still needs to be tested manually, because local tests only cover the sample fixture path. | Schema notes and fixtures are updated; production import still needs manual smoke testing. |
 
-The checked-in examples are measured by `scripts/eval_examples.py`: each rewrite must shrink the
-token proxy count while retaining required caveats. See
+The checked-in examples are synthetic, agnostic rewrites distilled from private-source patterns and
+measured by `scripts/eval_examples.py`: each rewrite must shrink the token proxy count while
+retaining required caveats. See
 [`docs/evals/signal-density-baseline.md`](docs/evals/signal-density-baseline.md).
 
 ## Quickstart
@@ -114,10 +115,10 @@ visual architecture map at
 
 ## Evidence
 
-The included evidence is deliberately small and public: a checked set of before/after examples with
-token-proxy deltas and caveat-retention checks. It supports the repo's examples; it is not a broad
-benchmark over private transcripts. Run `python scripts/eval_examples.py --json` to inspect the
-current counts.
+The included evidence is deliberately small and public: a checked set of synthetic before/after
+examples with token-proxy deltas and caveat-retention checks. The examples were distilled from
+aggregate private-source patterns, not copied from transcripts. Run
+`python scripts/eval_examples.py --json` to inspect the current counts.
 
 ## Why this stays useful
 
