@@ -6,6 +6,30 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+- Separate Claude Code and Claude.ai generated artifacts with target-specific metadata limits.
+- Signal-density example eval gate and installer helper for generated artifacts.
+- Status-shape guidance distilled from aggregate local JSONL analysis, with agnostic synthetic
+  examples.
+- Installer `--all` and `--targets` modes for multi-agent installs.
+
+### Changed
+- The drift gate now fails on orphaned generated files under `dist/`, not only missing or stale
+  expected files.
+- Codex and Gemini installer targets now merge managed blocks into existing instruction files,
+  avoid duplicate installs, and update stale managed blocks in place.
+- Claude skill installer targets now refresh their owned default skill files without requiring
+  `--force`, while custom destinations still refuse unrelated files.
+- CI now pins current Node 24-compatible GitHub Actions releases.
+- README and adapter references now describe only the shipped Gemini CLI artifact.
+- README now leads with before/after examples and links to measured local evidence instead of
+  making unsupported corpus-level provenance claims.
+- Eval examples now avoid platform-specific source details and preserve only generalized writing
+  patterns from the private corpus.
+
+### Removed
+- Public `docs/` tree; private plans, specs, and architecture notes should stay local.
+
 ## [0.1.0] - 2026-06-16
 
 ### Added

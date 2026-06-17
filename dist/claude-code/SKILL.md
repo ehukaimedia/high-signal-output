@@ -1,8 +1,18 @@
+---
+name: high-signal-output
+description: >-
+  Use when composing a user-facing long-form prose artifact (PR or commit body, status update,
+  handoff, release note, multi-paragraph summary), or when the user explicitly asks for denser,
+  tighter, sharper, terser, or less-verbose output, or to "tighten this". Also an opt-in pre-send
+  self-edit on a long draft. NOT for routine Q&A, short factual answers, exploratory brainstorming,
+  emotionally sensitive replies, or where a required format or safety constraint already governs
+  length. Triggers on output that is too verbose, wordy, bloated, or padded; "trim", "condense",
+  "concise", "token-frugal", "high signal", "say more with less".
+---
+
 # High-Signal Output
 
 **Write so every token earns its place.**
-
-> A portable, model-neutral guide to high-signal writing — drop it into any AI agent as a system prompt, style guide, or instruction file.
 
 ## Overview
 

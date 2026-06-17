@@ -1,0 +1,6 @@
+# Claude Code skill.
+# Emits YAML frontmatter (name + description) followed by the document body,
+# the format expected at ~/.claude/skills/<name>/SKILL.md.
+output = "claude-code/SKILL.md"
+header = "yaml"
+description_max = 1024

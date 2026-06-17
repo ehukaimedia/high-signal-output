@@ -8,9 +8,7 @@ Keep the generated artifacts truthful and in sync.
 - Edit `core/meta.toml`, `core/body.md`, or `adapters/*.toml`; never hand-edit `dist/`.
 - After changing source or adapters, run `python scripts/build.py` and commit the regenerated
   `dist/` files with the source change.
-- Public docs that describe architecture or contracts belong in `docs/specs/`.
-- Work plans belong in `docs/plans/`.
-- Architecture playgrounds belong in `docs/playgrounds/architecture/`.
+- Keep private plans, specs, and architecture notes out of the public repo; `docs/` is ignored.
 
 ## Gates
 
@@ -19,6 +17,7 @@ Run these before handing off a change:
 ```bash
 python scripts/build.py --check
 python -m unittest discover -s tests -v
+python scripts/eval_examples.py --check
 python -m ruff check .
 ```
 
@@ -32,5 +31,4 @@ The CLI exit-code contract is stable:
 - `1`: drift detected by `--check`.
 - `2`: invalid source input.
 
-The canonical design contract is in `docs/specs/high-signal-output-contract.md`; the visual
-architecture map is in `docs/playgrounds/architecture/high-signal-output-flow.html`.
+The build contract lives in `scripts/build.py` and is enforced by `tests/test_build.py`.

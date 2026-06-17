@@ -1,8 +1,8 @@
 # High-Signal Output
 
 > A portable, model-neutral writing standard for AI coding agents: **write so every token earns
-> its place.** One source of truth, generated into Claude, Codex, Gemini, and plain-Markdown
-> formats — so the same standard travels across your tools without drifting.
+> its place.** One source of truth, generated into Claude Code, Claude.ai, Codex, Gemini, and
+> plain-Markdown formats — so the same standard travels across your tools without drifting.
 
 [![CI](https://github.com/ehukaimedia/high-signal-output/actions/workflows/ci.yml/badge.svg)](https://github.com/ehukaimedia/high-signal-output/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -11,6 +11,18 @@ Most "be concise" advice makes an agent drop substance to look short. This stand
 opposite: it optimizes **signal per token** — cut the filler, keep every caveat, lead with the
 verdict — and ships the *same* guidance to every agent you use, in each one's native instruction
 format.
+
+## Demo
+
+| Context | Before | High-signal version |
+|---|---|---|
+| Status | I ran the tests and the build check, and those are both passing. I have not deployed the change yet because I wanted confirmation before making the remote change. | Build check and tests pass; not deployed yet because the remote change still needs confirmation. |
+| PR summary | This pull request updates the validator so exported files stay in sync with source inputs. It also adds tests for missing or stale outputs. | Tightens the export validation contract and adds missing/stale output tests; the public API is unchanged. |
+| Handoff | The main remaining caveat is that the production import still needs to be tested manually, because local tests only cover the sample fixture path. | Schema notes and fixtures are updated; production import still needs manual smoke testing. |
+
+The checked-in examples are synthetic, agnostic rewrites distilled from private-source patterns and
+measured by `scripts/eval_examples.py`: each rewrite must shrink the token proxy count while
+retaining required caveats.
 
 ## Quickstart
 
@@ -24,17 +36,38 @@ The ready-to-use artifacts live in [`dist/`](dist/). Grab the one for your agent
 
 | Agent | File | Install |
 |---|---|---|
-| **Claude Code / Claude.ai** | [`dist/claude/SKILL.md`](dist/claude/SKILL.md) | copy to `~/.claude/skills/high-signal-output/SKILL.md` |
+| **Claude Code** | [`dist/claude-code/SKILL.md`](dist/claude-code/SKILL.md) | copy to `~/.claude/skills/high-signal-output/SKILL.md` |
+| **Claude.ai** | [`dist/claude-ai/skill.md`](dist/claude-ai/skill.md) | use as the `skill.md` in an uploaded custom skill |
 | **OpenAI Codex** | [`dist/codex/AGENTS.md`](dist/codex/AGENTS.md) | merge into your project `AGENTS.md` (or `~/.codex/AGENTS.md`) |
-| **Gemini CLI / Antigravity** | [`dist/gemini/GEMINI.md`](dist/gemini/GEMINI.md) | copy into your project `GEMINI.md` (or `~/.gemini/GEMINI.md`) |
+| **Gemini CLI** | [`dist/gemini/GEMINI.md`](dist/gemini/GEMINI.md) | merge into your project `GEMINI.md` (or `~/.gemini/GEMINI.md`) |
 | **Any agent / human** | [`dist/general/high-signal-output.md`](dist/general/high-signal-output.md) | use as a system prompt or style guide |
 
-For example, to install the Claude skill:
+For example, to install the Claude Code skill:
 
 ```bash
 mkdir -p ~/.claude/skills/high-signal-output
-cp dist/claude/SKILL.md ~/.claude/skills/high-signal-output/SKILL.md
+cp dist/claude-code/SKILL.md ~/.claude/skills/high-signal-output/SKILL.md
 ```
+
+Installer shortcuts are available too:
+
+```bash
+python scripts/install.py --all
+python scripts/install.py --target claude-code
+python scripts/install.py --targets codex,gemini
+python scripts/install.py --target codex --dest ./AGENTS.md
+python scripts/install.py --target gemini --dest ./GEMINI.md
+```
+
+`--all` installs the local Claude Code, Codex, and Gemini CLI targets. Claude installs own their
+dedicated skill file, so reruns no-op when current and refresh the default skill path when stale.
+Custom Claude `--dest` paths still refuse unrelated files unless you pass `--force`. Codex and
+Gemini installs merge a managed Markdown block into existing `AGENTS.md` / `GEMINI.md` files, so
+rerunning the installer does not duplicate the guidance and stale managed blocks update in place.
+Merge installs refuse unmanaged High-Signal Output content instead of guessing and duplicating it.
+
+The Claude Code and Claude.ai artifacts are separate because those surfaces document different skill
+metadata and file-shape expectations.
 
 ## What's in it
 
@@ -56,13 +89,13 @@ yields to required formats and safety disclosures. Read the full text in
 core/meta.toml + core/body.md      single source of truth
         |   adapters/*.toml          per-platform framing
         v
-  scripts/build.py  -->  dist/{claude,codex,gemini,general}/...   generated, committed
+  scripts/build.py  -->  dist/{claude-ai,claude-code,codex,gemini,general}/...   generated, committed
 ```
 
 The `dist/` files are generated, never hand-edited. CI runs `python scripts/build.py --check`,
-which regenerates in memory and fails if any committed artifact has drifted from the source — so
-the four platforms can never silently diverge. The body is single-sourced, so a wording fix lands
-everywhere at once.
+which regenerates in memory and fails if any committed artifact is missing, stale, or orphaned —
+so the platform targets can never silently diverge. The body is single-sourced, so a wording fix
+lands everywhere at once.
 
 `build.py` is agent-operable: a deterministic exit-code contract (`0` in sync · `1` drift · `2` bad
 input) plus `--json` output.
@@ -72,6 +105,7 @@ input) plus `--json` output.
 ```bash
 python scripts/build.py --check          # verify dist/ matches the source
 python -m unittest discover -s tests -v  # run the gate's tests
+python scripts/eval_examples.py --check  # verify example rewrites keep caveats
 python -m pip install -r requirements-dev.txt
 python -m ruff check .                   # lint
 # or run every gate at once:
@@ -81,16 +115,12 @@ make all
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the one hard rule (edit `core/`, never `dist/`) and the
 PR flow.
 
-The source-of-truth contract is documented in
-[`docs/specs/high-signal-output-contract.md`](docs/specs/high-signal-output-contract.md), with a
-visual architecture map at
-[`docs/playgrounds/architecture/high-signal-output-flow.html`](docs/playgrounds/architecture/high-signal-output-flow.html).
+## Evidence
 
-## Provenance
-
-The guidance is distilled from analysis of a large corpus of real AI coding-agent transcripts — the
-patterns that actually separate high-signal output from filler, measured rather than guessed. It is
-model-neutral and contains no proprietary or private data.
+The included evidence is deliberately small and public: a checked set of synthetic before/after
+examples with token-proxy deltas and caveat-retention checks. The examples were distilled from
+aggregate private-source patterns, not copied from transcripts. Run
+`python scripts/eval_examples.py --json` to inspect the current counts.
 
 ## Why this stays useful
 

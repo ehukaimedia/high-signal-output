@@ -32,14 +32,16 @@ python -m pip install -r requirements-dev.txt
 
 ```bash
 python -m unittest discover -s tests -v
+python scripts/eval_examples.py --check
 python -m ruff check .
 # or run every gate at once:
 make all
 ```
 
-The suite proves the sync gate actually works: the committed `dist/` matches the source, the body
-is identical across platforms, and the gate *fails* on stale output, missing output, and bad input.
-If you add a platform or change rendering, add the matching test.
+The suite proves the sync gate actually works: the committed `dist/` exactly matches the rendered
+artifact manifest, the body is identical across platforms, target metadata limits are enforced, and
+the gate *fails* on stale output, missing output, orphaned output, and bad input. If you add a
+platform or change rendering, add the matching test.
 
 ## Pull requests
 

@@ -9,6 +9,8 @@ venv/
 .ruff_cache/
 .pytest_cache/
 .mypy_cache/
+build/
+docs/
 
 # OS
 .DS_Store

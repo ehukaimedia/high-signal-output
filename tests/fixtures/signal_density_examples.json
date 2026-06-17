@@ -1,0 +1,58 @@
+{
+  "examples": [
+    {
+      "name": "status update",
+      "before": "I took a look at the current state and it seems like the implementation is mostly in place. I ran the test suite and the build check, and those are both passing. There is one thing to be aware of, which is that I have not deployed the change yet because I wanted confirmation before making the remote change.",
+      "after": "Build check and tests pass; not deployed yet because the remote change still needs confirmation.",
+      "required_caveats": ["not deployed"]
+    },
+    {
+      "name": "PR summary",
+      "before": "This pull request updates the validator so that exported files are kept in sync with the source inputs. It also adds tests for the situations where generated outputs are missing or stale. One limitation is that it does not change the public API, because this change is only about the validation contract.",
+      "after": "Tightens the export validation contract and adds missing/stale output tests; the public API is unchanged.",
+      "required_caveats": ["unchanged"]
+    },
+    {
+      "name": "handoff",
+      "before": "The project is ready for the next person to continue from here. I added the schema notes and updated the fixtures. The main remaining caveat is that the production import still needs to be tested manually, because the local test only validates the sample fixture path.",
+      "after": "Ready for the next pass: schema notes and fixtures are updated; production import still needs manual smoke testing.",
+      "required_caveats": ["manual smoke testing"]
+    },
+    {
+      "name": "review finding",
+      "before": "I found a potential problem in the installer where it looks like an existing configuration file can be overwritten without a confirmation step. That seems risky because users could lose local settings if they run the command in a directory that already has a custom config.",
+      "after": "Installer can overwrite existing config without confirmation; add a force flag or refuse by default.",
+      "required_caveats": ["without confirmation", "force flag"]
+    },
+    {
+      "name": "release note",
+      "before": "In this release we added compatibility docs, more validation around the exported artifacts, installer commands for the supported targets, and a small evidence report that compares verbose examples to high-signal rewrites. This is still an illustrative eval rather than a broad benchmark across many private transcripts.",
+      "after": "Adds compatibility docs, export validation, installer commands, and a small signal-density eval; the eval is illustrative, not a broad benchmark.",
+      "required_caveats": ["illustrative", "not a broad benchmark"]
+    },
+    {
+      "name": "progress while work runs",
+      "before": "I am currently running the integration tests, and while those are going I will also take a look through the documentation links and the stale references to make sure there are not any other issues that need to be addressed before I hand this back.",
+      "after": "Integration tests are running; while they finish, checking docs links and stale references.",
+      "required_caveats": ["tests are running"]
+    },
+    {
+      "name": "recommendation",
+      "before": "There are a few different directions we could go here. We could start by improving the visual polish, or we could add more configuration options, or we could first add validation so bad configuration files fail before release. I think validation is probably the best first step.",
+      "after": "Recommendation: ship the validator first — it blocks bad configs before release; defer visual polish until the contract is stable.",
+      "required_caveats": ["defer visual polish"]
+    },
+    {
+      "name": "blocked status",
+      "before": "I am not able to finish the push right now because the remote credentials are not available in this environment. The local checks did pass, so once authentication is fixed the branch should be ready to send up.",
+      "after": "Blocked: remote auth is missing, so I cannot push; local checks pass and the branch is ready once credentials are fixed.",
+      "required_caveats": ["cannot push", "local checks pass"]
+    },
+    {
+      "name": "findings accumulating",
+      "before": "I am still going through the audit and have found a few things so far. The README badge points at a workflow that does not exist, the security contact is missing, and there is not a negative test for bad input. I will keep looking through the rest of the repository.",
+      "after": "Findings so far: stale README badge, missing security contact, no bad-input test — continuing the audit.",
+      "required_caveats": ["continuing the audit"]
+    }
+  ]
+}

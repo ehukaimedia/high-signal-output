@@ -1,0 +1,8 @@
+# Claude.ai uploaded custom skill.
+# Claude.ai currently documents a 200-character description limit, so this
+# adapter uses a short target-specific trigger instead of the full Agent Skills
+# description used by Claude Code.
+output = "claude-ai/skill.md"
+header = "yaml"
+description_max = 200
+description = "Use when tightening PR bodies, status updates, handoffs, summaries, or other long-form coding-agent prose without dropping caveats or evidence."
