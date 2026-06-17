@@ -15,6 +15,7 @@ All notable changes to this project are documented here. The format follows
 ### Changed
 - The drift gate now fails on orphaned generated files under `dist/`, not only missing or stale
   expected files.
+- CI now pins current Node 24-compatible GitHub Actions releases.
 - README and adapter references now describe only the shipped Gemini CLI artifact.
 - README now leads with before/after examples and links to measured local evidence instead of
   making unsupported corpus-level provenance claims.
